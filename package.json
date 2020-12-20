@@ -1,0 +1,24 @@
+{
+  "name": "neuro",
+  "version": "1.0.0",
+  "description": "neurosity poc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist",
+    "build": "babel src -d dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@neurosity/notion": "^5.1.1",
+    "dotenv": "^8.2.0",
+    "rxjs": "^6.6.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "regenerator-runtime": "^0.13.7"
+  }
+}
