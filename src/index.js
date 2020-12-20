@@ -4,21 +4,10 @@ import dotenv from "dotenv";
 import {login} from "./authenticate";
 import {statusSubscription} from "./status";
 import {map} from "rxjs/operators";
+import {averageProbability, compareAverages} from "./averageComparator";
 
 dotenv.config();
 const mind = new Notion(process.env.DEVICE_ID);
-
-const averageProbability = runningAverage => probability => {
-  console.log('running average: ', runningAverage)
-  console.log('new probability: ', probability)
-  const newCount = runningAverage.count + 1;
-  const newAverage = (runningAverage.avg * runningAverage.count + probability) / newCount;
-
-  runningAverage = {
-    avg: newAverage,
-    count: newCount
-  };
-}
 
 const app = async () => {
   // wait for login before doing anything
@@ -36,20 +25,19 @@ const app = async () => {
 
   // initialize running average at {avg: 0, count: 0}
   const updateAverage = averageProbability({avg: 0, count: 0})
+  const focusChange = compareAverages(null);
 
   // delay averaging for a period of 1000 milliseconds
   setTimeout(() => {
     focus.subscribe(focus => {
-      updateAverage(focus)
+      // update average and calculate how much focus changed
+      const percentChange = focusChange(updateAverage(focus));
+
+      // act on nanoleaf based on percent change
+      // ...
     });
   }, 1000)
 };
 
 app();
 
-
-// calculate a running average between time A and time B
-// continue calc average between B..C C..D
-// compare between currentAverage and newRunningAverage
-// based on difference, if positive turn nanoleaf more orange
-//                      if negative turn nanoleaf more blue
