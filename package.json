@@ -12,7 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "@neurosity/notion": "^5.1.1",
+    "axios": "^0.16.2",
     "dotenv": "^8.2.0",
+    "mathjs": "^9.0.0",
+    "nanoleaves": "^1.2.0",
     "rxjs": "^6.6.3"
   },
   "devDependencies": {

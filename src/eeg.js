@@ -53,3 +53,6 @@ export const focusProbability = () => {
     .pipe(map(focus => focus.probability));
 }
 
+export const brainwaves = () => {
+  return mind.brainwaves("psd")
+}
