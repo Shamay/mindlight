@@ -7,6 +7,6 @@ export const Config = {
   device_username: process.env.DEVICE_USERNAME,
   device_password: process.env.DEVICE_PASSWORD,
   environment: {
-    isTest: () => process.env.ENVIRONMENT === 'test'
-  }
-}
+    isTest: () => process.env.ENVIRONMENT === "test",
+  },
+};
