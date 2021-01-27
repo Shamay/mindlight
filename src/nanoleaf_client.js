@@ -8,6 +8,8 @@ export default class NanoleafClient {
 			baseURL: `http://${host}:${port}/api/v1/${token}`
 		});
 		this.electrodeToPanelMap = {};
+		this.extraPanelIds = [];
+		this.panelIds = [];
 	}
 
 	async info() {
@@ -17,10 +19,17 @@ export default class NanoleafClient {
 
 	async getElectrodeToPanelMap(channels) {
 		if(Object.keys(this.electrodeToPanelMap).length === 0) {
-			const response = await this.info();
-			const panelIds = response.panelLayout.layout.positionData.map(panel => panel.panelId);
+			if(process.env.LIGHT_ID_ELECTRODE_ANALOG) {
+				this.panelIds = process.env.LIGHT_ID_ELECTRODE_ANALOG.split(',');
+				this.extraPanelIds = process.env.EXTRA_LIGHT_IDS ? process.env.EXTRA_LIGHT_IDS.split(',') : [];
+			} else {
+				const response = await this.info();
+
+				this.panelIds = response.panelLayout.layout.positionData.map(panel => panel.panelId);
+			}
+
 			channels.forEach((channel, index) => {
-				this.electrodeToPanelMap[channel] = panelIds[index];
+				this.electrodeToPanelMap[channel] = this.panelIds[index];
 			});
 		}
 
@@ -36,7 +45,16 @@ export default class NanoleafClient {
 			}, effect.serializeToDisplay(panelList.length)
 		);
 
+		console.log(write);
 		await this.req.put('/effects', { write });
+	}
+
+	get extraPanelIds() {
+		return this._extraPanelIds;
+	}
+
+	set extraPanelIds(ids) {
+		this._extraPanelIds = ids;
 	}
 }
 
@@ -64,7 +82,7 @@ class Panel {
 		this.red = r;
 		this.green = g;
 		this.blue = b;
-		this.transitionTime = transitionTime || 50;
+		this.transitionTime = transitionTime || 5;
 	}
 
 	serialize() {

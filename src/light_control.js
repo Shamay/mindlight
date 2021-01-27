@@ -10,15 +10,19 @@ export const updateColor = async channelPSDs => {
 	if(Object.keys(channelPanelMap).length === 0) {
 		channelPanelMap = await channelToPanelMap();
 	}
-	const panelColor = [];
+	const panelsWithColor = [];
 
 	CHANNEL_NAMES.forEach(channel => {
-		panelColor.push([channelPanelMap[channel], ...getColor(channelPSDs[channel][0], channel)]);
+		panelsWithColor.push([channelPanelMap[channel], ...getColor(channelPSDs[channel][0], channel)]);
 	});
 
-	nanoleaf.setStaticPanels(panelColor);
+	const panelColorList = panelsWithColor.concat(extraPanelSettings());
+	nanoleaf.setStaticPanels(panelColorList);
 };
 
+const extraPanelSettings = () => {
+	return nanoleaf.extraPanelIds.map(panelId => [panelId, 0, 0, 0]);
+}
 
 const getColor = (val, channel) => {
 	if(val > 100) {
@@ -36,9 +40,9 @@ const getColor = (val, channel) => {
 	} else if(val > 2) {
 		return [255, 0, 0];
 	} else if(val > 1) {
-		return [220, 220, 220];
+		return [120, 120, 120];
 	} else {
-		return [255, 255, 255];
+		return [155, 255, 155];
 	}
 }
 
