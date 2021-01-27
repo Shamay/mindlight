@@ -1,4 +1,6 @@
 import axios from "axios";
+import Panel from "./model/panel";
+import Effect from "./model/effect";
 
 export default class NanoleafClient {
   constructor(host, token) {
@@ -52,7 +54,6 @@ export default class NanoleafClient {
       effect.serializeToDisplay(panelList.length)
     );
 
-    console.log(write);
     await this.req.put("/effects", { write });
   }
 
@@ -62,37 +63,5 @@ export default class NanoleafClient {
 
   set extraPanelIds(ids) {
     this._extraPanelIds = ids;
-  }
-}
-
-class Effect {
-  constructor(serializedPanelData) {
-    this.loop = false;
-    this.animType = "static";
-    this.version = "1.0";
-    this.animData = serializedPanelData;
-  }
-
-  serializeToDisplay(numPanels) {
-    return {
-      loop: this.loop,
-      animType: this.animType,
-      version: this.version,
-      animData: `${numPanels} ${this.animData.join(" ")}`,
-    };
-  }
-}
-
-class Panel {
-  constructor(id, r, g, b, transitionTime) {
-    this.id = id;
-    this.red = r;
-    this.green = g;
-    this.blue = b;
-    this.transitionTime = transitionTime || 5;
-  }
-
-  serialize() {
-    return `${this.id} 1 ${this.red} ${this.green} ${this.blue} 0 ${this.transitionTime}`;
   }
 }
