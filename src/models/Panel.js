@@ -1,4 +1,4 @@
-class Panel {
+export default class Panel {
   constructor(id, r, g, b, transitionTime) {
     this.id = id;
     this.red = r;

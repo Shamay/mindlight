@@ -1,10 +1,10 @@
 import axios from "axios";
-import Panel from "./model/panel";
-import Effect from "./model/effect";
+import { Config } from "./config";
+import Panel from "./models/panel";
+import Effect from "./models/effect";
 
 export default class NanoleafClient {
-  constructor(host, token) {
-    const port = process.env.LIGHT_PORT || 16021;
+  constructor(host, token, port) {
     this.req = axios.create({
       baseURL: `http://${host}:${port}/api/v1/${token}`,
     });
@@ -20,11 +20,9 @@ export default class NanoleafClient {
 
   async getElectrodeToPanelMap(channels) {
     if (Object.keys(this.electrodeToPanelMap).length === 0) {
-      if (process.env.LIGHT_ID_ELECTRODE_ANALOG) {
-        this.panelIds = process.env.LIGHT_ID_ELECTRODE_ANALOG.split(",");
-        this.extraPanelIds = process.env.EXTRA_LIGHT_IDS
-          ? process.env.EXTRA_LIGHT_IDS.split(",")
-          : [];
+      if (Config.nanoleaf_electrode_analog) {
+        this.panelIds = Config.nanoleaf_electrode_analog.split(",");
+        this.extraPanelIds = Config.nanoleaf_extra_ids.split(",");
       } else {
         const response = await this.info();
 

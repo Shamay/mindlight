@@ -1,9 +1,11 @@
 import NanoleafClient from "./nanoleaf_client";
+import { Config } from "./config";
 import { CHANNEL_NAMES } from "./compute_tools";
 
 const nanoleaf = new NanoleafClient(
-  process.env.LIGHT_IP,
-  process.env.NANOLEAF_AUTH_TOKEN
+  Config.nanoleaf_ip,
+  Config.nanoleaf_auth_token,
+  Config.nanoleaf_port
 );
 
 const channelToPanelMap = async () =>
@@ -19,7 +21,7 @@ export const updateColor = async (channelPSDs) => {
   CHANNEL_NAMES.forEach((channel) => {
     panelsWithColor.push([
       channelPanelMap[channel],
-      ...getColor(channelPSDs[channel][0], channel),
+      ...getColor(channelPSDs[channel][0]),
     ]);
   });
 
@@ -31,7 +33,7 @@ const extraPanelSettings = () => {
   return nanoleaf.extraPanelIds.map((panelId) => [panelId, 0, 0, 0]);
 };
 
-const getColor = (val, channel) => {
+const getColor = val => {
   if (val > 100) {
     return [255, 0, 0];
   } else if (val > 50) {

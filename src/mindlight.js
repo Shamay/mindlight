@@ -1,5 +1,4 @@
 import "regenerator-runtime/runtime.js";
-import { averageProbability, compareAverages } from "./averageComparator";
 import * as eeg from "./eeg";
 import { avgPSDByChannel, filterNoise } from "./compute_tools";
 import { updateColor } from "./light_control";

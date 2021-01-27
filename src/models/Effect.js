@@ -1,4 +1,4 @@
-class Effect {
+export default class Effect {
   constructor(serializedPanelData) {
     this.loop = false;
     this.animType = "static";
