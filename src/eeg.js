@@ -5,6 +5,17 @@ import { Config } from "./config";
 
 const mind = new Notion(Config.device_id);
 
+export const CHANNEL_NAMES = [
+  "CP5",
+  "F5",
+  "C3",
+  "CP3",
+  "CP6",
+  "F6",
+  "C4",
+  "CP4",
+];
+
 export const login = async () => {
   return await mind
     .login({

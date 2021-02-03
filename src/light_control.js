@@ -1,6 +1,7 @@
 import NanoleafClient from "./nanoleaf_client";
 import { Config } from "./config";
-import { CHANNEL_NAMES } from "./compute_tools";
+import { CHANNEL_NAMES } from "./eeg";
+import { colorFromFrequency } from "./color_service";
 
 const nanoleaf = new NanoleafClient(
   Config.nanoleaf_ip,
@@ -21,7 +22,7 @@ export const updateColor = async (channelPSDs) => {
   CHANNEL_NAMES.forEach((channel) => {
     panelsWithColor.push([
       channelPanelMap[channel],
-      ...getColor(channelPSDs[channel][0]),
+      ...colorFromFrequency(channelPSDs[channel][0]),
     ]);
   });
 
@@ -30,27 +31,5 @@ export const updateColor = async (channelPSDs) => {
 };
 
 const extraPanelSettings = () => {
-  return nanoleaf.extraPanelIds.map((panelId) => [panelId, 0, 0, 0]);
-};
-
-const getColor = val => {
-  if (val > 100) {
-    return [255, 0, 0];
-  } else if (val > 50) {
-    return [255, 165, 0];
-  } else if (val > 25) {
-    return [150, 75, 0];
-  } else if (val > 12) {
-    return [255, 255, 0];
-  } else if (val > 6) {
-    return [0, 255, 0];
-  } else if (val > 3) {
-    return [128, 0, 128];
-  } else if (val > 2) {
-    return [255, 0, 0];
-  } else if (val > 1) {
-    return [120, 120, 120];
-  } else {
-    return [155, 255, 155];
-  }
+  return nanoleaf.extraPanelIds.map((panelId) => [panelId, 200, 200, 200]);
 };

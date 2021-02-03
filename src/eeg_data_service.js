@@ -1,22 +1,15 @@
 import { std } from "mathjs";
-import * as eeg from "./eeg";
+import { CHANNEL_NAMES } from "./eeg";
 
-export const CHANNEL_NAMES = [
-  "CP5",
-  "F5",
-  "C3",
-  "CP3",
-  "CP6",
-  "F6",
-  "C4",
-  "CP4",
-];
-
-export const avgPSDByChannel = (psdCallback, completionCallback) => {
+export const avgPSDByChannel = (
+  brainwaves,
+  psdCallback,
+  completionCallback
+) => {
   let currChannelPSDAverage = {};
   let nextChannelPSDAverage = {};
 
-  eeg.brainwaves().subscribe(
+  brainwaves().subscribe(
     (brainwave) => {
       brainwave.psd.forEach((channelPSD, channelIndex) => {
         nextChannelPSDAverage[CHANNEL_NAMES[channelIndex]] = [

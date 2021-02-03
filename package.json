@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/mindlight.js",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "lint": "npx prettier -w ."
   },
   "author": "",
   "license": "ISC",
